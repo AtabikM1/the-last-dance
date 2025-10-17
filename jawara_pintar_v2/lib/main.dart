@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'login/login_page.dart';
 import 'register/register_page.dart';
 import 'kegiatan/kegiatan_page.dart';
+import 'dashboard/dashboard_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      // home: const LoginPage(),
+      home: const DashboardPage(userEmail: "admin@jawara.com"),
       routes: {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),

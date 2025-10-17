@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../warga/pages/warga_daftar_page.dart';
+import '../login/login_page.dart';
 
 class Sidebar extends StatelessWidget {
   final String userEmail;
@@ -20,7 +22,7 @@ class Sidebar extends StatelessWidget {
                 BoxShadow(
                   color: Colors.black12,
                   blurRadius: 4,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
@@ -29,19 +31,19 @@ class Sidebar extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.blue[100],
+                    color: Colors.blue,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: const EdgeInsets.all(4), 
+                  padding: const EdgeInsets.all(8),
                   child: const Icon(
                     Icons.menu_book_rounded,
                     color: Colors.white,
-                    size: 20,
+                    size: 24,
                   ),
                 ),
                 const SizedBox(width: 10),
                 const Text(
-                  "Jawara Pintar.",
+                  "Jawara Pintar",
                   style: TextStyle(
                     fontSize: 20, 
                     fontWeight: FontWeight.bold,
@@ -59,7 +61,12 @@ class Sidebar extends StatelessWidget {
           ]),
 
           _buildMenuSection("Data Warga & Rumah", Icons.people, [
-            _buildSubMenu(context, "Warga - Daftar"),
+            _buildSubMenu(context, "Warga - Daftar", onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const WargaDaftarPage()),
+              );
+            }),
             _buildSubMenu(context, "Warga - Tambah"),
             _buildSubMenu(context, "Keluarga"),
             _buildSubMenu(context, "Rumah - Daftar"),
@@ -130,8 +137,14 @@ class Sidebar extends StatelessWidget {
               child: Icon(Icons.person, color: Colors.white),
             ),
             title: const Text("Admin Jawara"),
-            subtitle: Text (userEmail),
-            onTap: () {},
+            subtitle: Text(userEmail),
+            onTap: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+                (route) => false,
+              );
+            },
           ),
         ],
       ),
@@ -146,20 +159,16 @@ class Sidebar extends StatelessWidget {
     );
   }
 
-  Widget _buildSubMenu(BuildContext context, String title,
-      {bool isActive = false}) {
+  Widget _buildSubMenu(BuildContext context, String title, {VoidCallback? onTap}) {
     return ListTile(
       title: Padding(
         padding: const EdgeInsets.only(left: 16.0),
         child: Text(
           title,
-          style: TextStyle(
-            color: isActive ? Colors.blue : Colors.black87,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-          ),
+          style: const TextStyle(fontSize: 14),
         ),
       ),
-      onTap: () {},
+      onTap: onTap,
     );
   }
 }
