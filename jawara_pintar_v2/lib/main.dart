@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'login/login_page.dart';
 import 'register/register_page.dart';
+import 'package:jawara_pintar_v2/manajemen_pengguna/halaman_daftar_pengguna.dart';
+
 import 'kegiatan/kegiatan_page.dart';
 import 'dashboard/dashboard_page.dart';
 import 'warga/pages/warga_daftar_page.dart';
@@ -39,6 +41,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
+        '/daftarPengguna': (context) => const UserListScreen(),
         '/dashboard': (context) => const DashboardPage(userEmail: "admin@jawara.com"),
         '/kegiatan': (context) => const KegiatanPage(),
         '/warga': (context) => const WargaDaftarPage(),
