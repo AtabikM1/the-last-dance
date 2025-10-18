@@ -111,63 +111,6 @@ class _SidebarState extends State<Sidebar> {
 
           const Divider(height: 1),
 
-          _buildMenuSection("Pengeluaran", Icons.trending_down, [
-            _buildSubMenu(context, "Daftar"),
-            _buildSubMenu(context, "Tambah"),
-          ]),
-
-          _buildMenuSection("Laporan Keuangan", Icons.receipt_long, [
-            _buildSubMenu(context, "Semua Pemasukan"),
-            _buildSubMenu(context, "Semua Pengeluaran"),
-            _buildSubMenu(context, "Cetak Laporan"),
-          ]),
-          
-          _buildMenuSection("Kegiatan & Broadcast", Icons.campaign, [
-            _buildSubMenu(context, "Kegiatan - Daftar"),
-            _buildSubMenu(context, "Kegiatan - Tambah"),
-            _buildSubMenu(context, "Broadcast - Daftar"),
-            _buildSubMenu(context, "Broadcast - Tambah"),
-          ]),
-
-          _buildMenuSection("Pesan Warga", Icons.message, [
-            _buildSubMenu(context, "Informasi Aspirasi"),
-          ]),
-
-          _buildMenuSection("Penerimaan Warga", Icons.person_add, [
-            _buildSubMenu(context, "Penerimaan Warga"),
-          ]),
-
-          _buildMenuSection("Mutasi Keluarga", Icons.group, [
-            _buildSubMenu(context, "Daftar"),
-            _buildSubMenu(context, "Tambah"),
-          ]),
-
-          _buildMenuSection("Log Aktivitas", Icons.history, [
-            _buildSubMenu(context, "Semua Aktifitas"),
-          ]),
-
-           _buildMenuSection("Manajemen Pengguna", Icons.settings, [
-            _buildSubMenu(
-              context, 
-              "Daftar Pengguna", 
-              // Gunakan nama rute dari main.dart
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/daftarPengguna');
-              },
-              isActive: true,
-            ),
-
-          ]),
-
-          const SizedBox(height: 20),
-
-          const Divider(),
-
-          // Footer
-          ListTile(
-            leading: const CircleAvatar(
-              backgroundColor: Colors.blue,
-              child: Icon(Icons.person, color: Colors.white),
           Container(
             width: double.infinity,
             child: Material(

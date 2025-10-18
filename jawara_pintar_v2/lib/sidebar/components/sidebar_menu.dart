@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jawara_pintar_v2/warga/pages/keluarga.dart';
 import '../../warga/pages/warga_daftar_page.dart';
-import '../../warga/pages/warga_tambah_page.dart';
-
 import '../../kegiatan/kegiatan_page.dart';
+import '../../warga/pages/warga_tambah_page.dart';
+import '../../warga/pages/keluarga.dart';
 
 class SidebarMenu extends StatelessWidget {
   SidebarMenu({super.key});
@@ -100,7 +99,12 @@ class SidebarMenu extends StatelessWidget {
     MenuSection(
       title: "Manajemen Pengguna",
       icon: Icons.settings,
-      subMenus: ["Daftar Pengguna", "Tambah Pengguna"],
+      subMenus: [
+        SubMenu("Daftar Pengguna", onTap: (context) {
+          Navigator.pushReplacementNamed(context, '/daftarPengguna');
+        }),
+        SubMenu("Tambah Pengguna"),
+      ],
     ),
     MenuSection(
       title: "Channel Transfer",
@@ -155,7 +159,12 @@ class SidebarMenu extends StatelessWidget {
           ),
         ),
       ),
-      onTap: onTap != null ? () => onTap(context) : null,
+      onTap: onTap != null 
+          ? () {
+              Navigator.pop(context);
+              onTap(context);
+            }
+          : null,
     );
   }
 }
