@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../data/warga_data.dart';
 import 'fields/nama_field.dart';
 import 'fields/jenis_kelamin_field.dart';
 import 'fields/status_field.dart';

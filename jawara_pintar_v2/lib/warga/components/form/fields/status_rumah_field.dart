@@ -28,7 +28,7 @@ class StatusRumahField extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           DropdownButtonFormField<String>(
-            value: value.isNotEmpty ? value : 'Tersedia',
+            initialValue: value.isNotEmpty ? value : 'Tersedia',
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.grey[50],

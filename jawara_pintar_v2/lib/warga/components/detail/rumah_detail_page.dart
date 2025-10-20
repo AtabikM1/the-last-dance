@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../data/rumah_data.dart';
 
 class RumahDetailPage extends StatelessWidget {
   final Map<String, dynamic> rumah;

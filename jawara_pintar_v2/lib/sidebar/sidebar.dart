@@ -111,7 +111,7 @@ class _SidebarState extends State<Sidebar> {
 
           const Divider(height: 1),
 
-          Container(
+          SizedBox(
             width: double.infinity,
             child: Material(
               color: Colors.transparent,

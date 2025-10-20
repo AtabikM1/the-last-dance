@@ -29,8 +29,8 @@ class TabelContentRumah extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: DataTable(
-          headingRowColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) => Colors.blueGrey[50],
+          headingRowColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) => Colors.blueGrey[50],
           ),
           headingTextStyle: const TextStyle(
             fontWeight: FontWeight.bold,

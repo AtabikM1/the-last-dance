@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jawara_pintar_v2/dashboard/kependudukan.dart';
+import 'package:jawara_pintar_v2/keuangan/laporan.dart';
+import 'package:jawara_pintar_v2/keuangan/pemasukan.dart';
+import 'package:jawara_pintar_v2/keuangan/pengeluaran.dart';
 import '../../warga/pages/warga_daftar_page.dart';
 import '../../kegiatan/kegiatan_page.dart';
 import '../../warga/pages/warga_tambah_page.dart';
@@ -7,6 +11,8 @@ import '../../warga/pages/keluarga.dart';
 import '../../warga/pages/rumah_daftar_page.dart';
 import '../../warga/pages/rumah_tambah_page.dart';
 import '../../penerimaanWarga/pages/penerimaan_warga_page.dart';
+import '../../dashboard/keuangan.dart';
+import '../../dashboard/kegiatan.dart';
 
 class SidebarMenu extends StatelessWidget {
   SidebarMenu({super.key});
@@ -15,8 +21,37 @@ class SidebarMenu extends StatelessWidget {
     MenuSection(
       title: "Dashboard",
       icon: Icons.dashboard,
-      subMenus: ["Keuangan", "Kegiatan", "Kependudukan"],
+      subMenus: [
+        SubMenu(
+          "Keuangan",
+          onTap: (context) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => DashboardPage()),
+            );
+          },
+        ),
+        SubMenu(
+          "Kegiatan",
+          onTap: (context) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Kegiatan()),
+            );
+          },
+        ),
+        SubMenu(
+          "Kependudukan",
+          onTap: (context) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const Kependudukan()),
+            );
+          },
+        ),
+      ],
     ),
+
     MenuSection(
       title: "Data Warga & Rumah",
       icon: Icons.people,
@@ -89,7 +124,35 @@ class SidebarMenu extends StatelessWidget {
     MenuSection(
       title: "Laporan Keuangan",
       icon: Icons.receipt_long,
-      subMenus: ["Semua Pemasukan", "Semua Pengeluaran", "Cetak Laporan"],
+      subMenus: [
+        SubMenu(
+          "Semua Pemasukan",
+          onTap: (context) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Pemasukan()),
+            );
+          },
+        ),
+        SubMenu(
+          "Semua Pengeluaran",
+          onTap: (context) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Pengeluaran()),
+            );
+          },
+        ),
+        SubMenu(
+          "Cetak Laporan",
+          onTap: (context) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Laporan()),
+            );
+          },
+        ),
+      ],
     ),
     MenuSection(
       title: "Kegiatan & Broadcast",
@@ -122,9 +185,11 @@ class SidebarMenu extends StatelessWidget {
           "Penerimaan Warga",
           onTap: (context) {
             Navigator.pushReplacement(
-              context, 
-              MaterialPageRoute(builder:  (context) => const PenerimaanWargaPage()),
-              );
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PenerimaanWargaPage(),
+              ),
+            );
           },
         ),
       ],

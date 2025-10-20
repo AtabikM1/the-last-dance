@@ -182,7 +182,7 @@ class KeluargaDetailPage extends StatelessWidget {
                           status: anggota['status_domisili'],
                           tanggalLahir: anggota['tanggal_lahir'],
                         )
-                      ).toList(),
+                      ),
                   ],
                 ),
               ),

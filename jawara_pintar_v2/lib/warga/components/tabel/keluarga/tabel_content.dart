@@ -21,8 +21,8 @@ class TabelContent extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: DataTable(
-          headingRowColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) => Colors.blueGrey[50],
+          headingRowColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) => Colors.blueGrey[50],
           ),
           headingTextStyle: const TextStyle(
             fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class TabelContent extends StatelessWidget {
         DataCell(Text(keluarga['nama_keluarga'])),
         DataCell(Text(keluarga['kepala_keluarga'])),
         DataCell(
-          Container(
+          SizedBox(
             width: 200,
             child: Text(
               keluarga['alamat'],

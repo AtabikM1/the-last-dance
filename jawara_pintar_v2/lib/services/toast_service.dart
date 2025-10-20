@@ -94,7 +94,7 @@ class ToastService {
       ),
     );
 
-    overlay?.insert(overlayEntry);
+    overlay.insert(overlayEntry);
 
     Future.delayed(const Duration(seconds: 3), () {
       if (overlayEntry.mounted) {

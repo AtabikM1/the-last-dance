@@ -139,7 +139,7 @@ class _UserEditFormState extends State<UserEditForm> {
               const SizedBox(height: 20),
 
               DropdownButtonFormField<String>(
-                value: _selectedRole,
+                initialValue: _selectedRole,
                 decoration: const InputDecoration(
                   labelText: 'Role (tidak dapat diubah)',
                   border: OutlineInputBorder(),

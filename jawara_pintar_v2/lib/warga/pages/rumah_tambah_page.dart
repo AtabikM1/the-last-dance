@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../sidebar/sidebar.dart';
 import '../components/form/form_rumah.dart';
 import '../../../services/toast_service.dart';
-import '../../../dashboard/dashboard_page.dart';
+import '../../dashboard/keuangan.dart';
 
 class RumahTambahPage extends StatefulWidget {
   const RumahTambahPage({super.key});
@@ -37,7 +37,7 @@ class _RumahTambahPageState extends State<RumahTambahPage> {
   void _navigateToDashboard() {
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
-        builder: (context) => const DashboardPage(userEmail: 'admin@jawara.com')
+        builder: (context) => const DashboardPage()
       ),
       (route) => false,
     );

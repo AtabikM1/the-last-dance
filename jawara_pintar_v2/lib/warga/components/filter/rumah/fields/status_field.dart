@@ -64,7 +64,7 @@ class StatusRumahField extends StatelessWidget {
                       child: Text(value),
                     ),
                   );
-                }).toList(),
+                }),
               ],
               onChanged: onChanged,
             ),
