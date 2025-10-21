@@ -5,6 +5,7 @@ import 'register/register_page.dart';
 import 'package:jawara_pintar_v2/manajemen_pengguna/halaman_daftar_pengguna.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'kegiatan/kegiatan_page.dart';
+import 'kegiatan/kegiatan_tambah_page.dart';
 import 'dashboard/keuangan.dart';
 import 'warga/pages/warga_daftar_page.dart';
 import 'warga/pages/warga_tambah_page.dart';
@@ -41,20 +42,21 @@ class MyApp extends StatelessWidget {
       ),
 
       home: const DashboardPage(),
+
       // home: const LoginPage(),
-      
       routes: {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/daftarPengguna': (context) => const UserListScreen(),
         '/dashboard': (context) => const DashboardPage(),
-        '/kegiatan': (context) => const KegiatanPage(),
+        '/kegiatan': (context) => const KegiatanDaftarPage(),
+        '/kegiatan/tambah': (context) => const KegiatanTambahPage(),
         '/warga': (context) => const WargaDaftarPage(),
         '/warga/tambah': (context) => const WargaTambahPage(),
         '/keluarga': (context) => const KeluargaDaftarPage(),
-        '/rumah' : (context) => const RumahDaftarPage(),
-        '/eumah/tambah' : (context) => RumahTambahPage(),
-        '/penerimaanWarga' : (context) => PenerimaanWargaPage(),
+        '/rumah': (context) => const RumahDaftarPage(),
+        '/eumah/tambah': (context) => RumahTambahPage(),
+        '/penerimaanWarga': (context) => PenerimaanWargaPage(),
       },
     );
   }
