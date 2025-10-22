@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../shared/status_chip.dart';
-import '../../shared/action_buttons.dart';
+import '../../shared/action_buttons_warga.dart';
 import '../../detail/warga_detail_page.dart';
-import '../../../pages/warga_edit_page.dart';
+import '../../edit/warga_edit_page.dart';
 import '../../../../data/warga_data.dart';
 
 class TabelContent extends StatelessWidget {

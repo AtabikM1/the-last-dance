@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/toast_service.dart';
 import '../data/login_data.dart';
-import '../dashboard/dashboard_page.dart';
+import '../dashboard/keuangan.dart';
 import 'email_field.dart';
 import 'password_field.dart';
 
@@ -38,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
         if (mounted) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => DashboardPage(userEmail: _email)),
+            MaterialPageRoute(builder: (context) => DashboardPage()),
           );
         }
       } else {

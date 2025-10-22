@@ -118,13 +118,18 @@ class LegendWidget extends StatelessWidget {
 
 // --- Halaman Dashboard Utama ---
 class DashboardPage extends StatelessWidget {
-  final String userEmail;
-  const DashboardPage({super.key, required this.userEmail});
+  // Konstruktor sekarang tidak memerlukan parameter userEmail
+  const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Di sini kamu perlu mengambil data email dari state management atau cara lain
+    // Untuk sementara, kita bisa gunakan nilai placeholder
+    const String currentUserEmail = "user@example.com";
+
     return Scaffold(
-      drawer: Sidebar(userEmail: userEmail),
+      // Sidebar tetap dipanggil dengan parameter email
+      drawer: const Sidebar(userEmail: currentUserEmail),
       backgroundColor: const Color(0xfff0f4f7), // Warna background abu-abu muda
       appBar: AppBar(
         title: const Text("Dashboard"),
