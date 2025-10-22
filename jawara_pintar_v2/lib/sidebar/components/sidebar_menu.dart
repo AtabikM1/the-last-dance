@@ -9,6 +9,7 @@ import 'package:jawara_pintar_v2/keuangan/pemasukan.dart';
 import 'package:jawara_pintar_v2/keuangan/pengeluaran.dart';
 import '../../warga/pages/warga_daftar_page.dart';
 import '../../kegiatan/kegiatan_page.dart';
+import '../../Mutasi_Keluarga/halaman_daftar_mutasi.dart';
 import '../../kegiatan/kegiatan_tambah_page.dart';
 import '../../broadcast/broadcast_daftar_page.dart';
 import '../../broadcast/broadcast_tambah_page.dart';
@@ -20,6 +21,7 @@ import '../../warga/pages/rumah_tambah_page.dart';
 import '../../penerimaanWarga/pages/penerimaan_warga_page.dart';
 import '../../dashboard/keuangan.dart';
 import '../../dashboard/kegiatan.dart';
+
 
 class SidebarMenu extends StatelessWidget {
   SidebarMenu({super.key});
@@ -236,7 +238,15 @@ class SidebarMenu extends StatelessWidget {
     MenuSection(
       title: "Mutasi Keluarga",
       icon: Icons.group,
-      subMenus: ["Daftar", "Tambah"],
+      subMenus: [
+        SubMenu("Daftar", onTap: (context) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const MutasiDaftarScreen()),
+          );
+        }),
+        
+         "Tambah"],
     ),
     MenuSection(
       title: "Log Aktivitas",
