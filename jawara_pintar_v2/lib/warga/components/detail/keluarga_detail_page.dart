@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../data/warga_data.dart';
 
 class KeluargaDetailPage extends StatelessWidget {
   final Map<String, dynamic> keluarga;
@@ -182,7 +181,7 @@ class KeluargaDetailPage extends StatelessWidget {
                           status: anggota['status_domisili'],
                           tanggalLahir: anggota['tanggal_lahir'],
                         )
-                      ).toList(),
+                      ),
                   ],
                 ),
               ),

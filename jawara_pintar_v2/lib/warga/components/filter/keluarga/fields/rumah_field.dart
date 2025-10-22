@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jawara_pintar_v2/data/warga_data.dart';
-import '../../../../../data/warga_data.dart';
 
 class RumahField extends StatelessWidget {
   final String? selectedValue;

@@ -150,8 +150,8 @@ class _SidebarState extends State<Sidebar> {
             _buildSubMenu(
               context, 
               "Daftar Pengguna", 
-              // Gunakan nama rute dari main.dart
               onTap: () {
+                print("wokay");
                 Navigator.pushReplacementNamed(context, '/daftarPengguna');
               },
               isActive: true,
@@ -168,6 +168,8 @@ class _SidebarState extends State<Sidebar> {
             leading: const CircleAvatar(
               backgroundColor: Colors.blue,
               child: Icon(Icons.person, color: Colors.white),
+              ),
+            ),
           Container(
             width: double.infinity,
             child: Material(
@@ -233,6 +235,7 @@ class _SidebarState extends State<Sidebar> {
         ),
       ),
       onTap: () {
+        print("wwcwce");
         // 1. Selalu tutup sidebar saat item menu diklik
         Navigator.pop(context);
         // 2. Jalankan aksi onTap yang diberikan (navigasi, dll)

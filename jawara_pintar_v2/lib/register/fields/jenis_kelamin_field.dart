@@ -49,7 +49,7 @@ class _JenisKelaminFieldState extends State<JenisKelaminField> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButtonFormField<String>(
-              value: _selectedJenisKelamin,
+              initialValue: _selectedJenisKelamin,
               hint: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(

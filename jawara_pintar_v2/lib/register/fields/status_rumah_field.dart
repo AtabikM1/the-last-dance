@@ -49,7 +49,7 @@ class _StatusRumahFieldState extends State<StatusRumahField> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButtonFormField<String>(
-              value: _selectedStatusRumah,
+              initialValue: _selectedStatusRumah,
               hint: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(

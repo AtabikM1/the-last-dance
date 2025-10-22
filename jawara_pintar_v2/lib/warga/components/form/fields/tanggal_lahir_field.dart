@@ -22,8 +22,7 @@ class TanggalLahirField extends StatelessWidget {
             colorScheme: const ColorScheme.light(
               primary: Colors.blue,
               onPrimary: Colors.white,
-            ),
-            dialogBackgroundColor: Colors.white,
+            ), dialogTheme: DialogThemeData(backgroundColor: Colors.white),
           ),
           child: child!,
         );

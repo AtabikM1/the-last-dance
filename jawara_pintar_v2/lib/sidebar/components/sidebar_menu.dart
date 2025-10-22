@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jawara_pintar_v2/manajemen_pengguna/halaman_daftar_pengguna.dart';
 import 'package:jawara_pintar_v2/warga/pages/keluarga.dart';
 import '../../warga/pages/warga_daftar_page.dart';
 import '../../warga/pages/warga_tambah_page.dart';
@@ -100,7 +101,20 @@ class SidebarMenu extends StatelessWidget {
     MenuSection(
       title: "Manajemen Pengguna",
       icon: Icons.settings,
-      subMenus: ["Daftar Pengguna", "Tambah Pengguna"],
+      subMenus: [
+        SubMenu("Daftar - pengguna", onTap: (context) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const UserListScreen()),
+          );
+        }),
+        SubMenu("Tambah - pengguna", onTap: (context) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const KegiatanPage()),
+          );
+        })
+      ],
     ),
     MenuSection(
       title: "Channel Transfer",

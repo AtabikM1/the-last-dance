@@ -47,7 +47,7 @@ class _RumahFieldState extends State<RumahField> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButtonFormField<String>(
-              value: _selectedRumah,
+              initialValue: _selectedRumah,
               hint: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
