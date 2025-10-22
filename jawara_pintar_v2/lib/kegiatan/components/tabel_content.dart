@@ -3,6 +3,7 @@ import '../../warga/components/shared/action_buttons_warga.dart';
 import '../../data/kegiatan_data.dart';
 import '../components/edit/edit_kegiatan_page.dart';
 import '../components/detail/detail_kegiatan_page.dart';
+import 'action_buttons.dart' as btn;
 
 class TabelContent extends StatelessWidget {
   final List<Map<String, dynamic>> filteredData;
@@ -76,9 +77,10 @@ class TabelContent extends StatelessWidget {
         DataCell(Text(kegiatan['tanggal'])),
         DataCell(
           Center(
-            child: ActionButtons(
+            child: btn.ActionPopupMenu(
               onDetail: () => _showDetail(kegiatan, context),
               onEdit: () => _editData(kegiatan, context),
+              onDelete: () {},
             ),
           ),
         ),

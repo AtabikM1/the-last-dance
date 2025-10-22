@@ -9,6 +9,7 @@ import 'kegiatan/kegiatan_tambah_page.dart';
 import 'broadcast/broadcast_daftar_page.dart';
 import 'broadcast/broadcast_tambah_page.dart';
 import 'log_aktivitas/log_aktivitas_page.dart';
+import 'pesan_warga/pesan_warga_page.dart';
 import 'dashboard/keuangan.dart';
 import 'warga/pages/warga_daftar_page.dart';
 import 'warga/pages/warga_tambah_page.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         '/broadcast': (context) => const BroadcastDaftarPage(),
         '/broadcast/tambah': (context) => const BroadcastTambahPage(),
         '/log': (context) => const LogDaftarPage(),
+        '/aspirasi': (context) => const AspirasiDaftarPage(),
         '/warga': (context) => const WargaDaftarPage(),
         '/warga/tambah': (context) => const WargaTambahPage(),
         '/keluarga': (context) => const KeluargaDaftarPage(),
