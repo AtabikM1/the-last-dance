@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../warga/components/shared/action_buttons_warga.dart';
-import '../../data/data_broadcast.dart';
-import 'edit/edit_broadcast_page.dart';
-import 'detail/detail_broadcast_page.dart';
+import '../../data/data_aspirasi.dart';
 import 'action_buttons.dart' as btn;
+import 'edit/edit_aspirasi_page.dart';
+import 'detail/detail_aspirasi_page.dart';
 
 class TabelContent extends StatelessWidget {
   final List<Map<String, dynamic>> filteredData;
@@ -52,6 +52,7 @@ class TabelContent extends StatelessWidget {
                   DataColumn(label: Text('NO')),
                   DataColumn(label: Text('PENGIRIM')),
                   DataColumn(label: Text('JUDUL')),
+                  DataColumn(label: Text('STATUS')),
                   DataColumn(label: Text('TANGGAL')),
                   DataColumn(label: Center(child: Text('AKSI'))),
                 ],
@@ -72,7 +73,7 @@ class TabelContent extends StatelessWidget {
 
   DataRow _buildDataRow(
     int index,
-    Map<String, dynamic> broadcast,
+    Map<String, dynamic> aspirasi,
     BuildContext context,
   ) {
     int nomorUrut = ((currentPage - 1) * itemsPerPage) + index + 1;
@@ -80,14 +81,15 @@ class TabelContent extends StatelessWidget {
     return DataRow(
       cells: [
         DataCell(Center(child: Text(nomorUrut.toString()))),
-        DataCell(Text(broadcast['dibuat_oleh'])),
-        DataCell(Text(broadcast['judul'])),
-        DataCell(Text(broadcast['tanggal_publikasi'])),
+        DataCell(Text(aspirasi['dibuat_oleh'] ?? '-')),
+        DataCell(Text(aspirasi['judul'] ?? '-')),
+        DataCell(Text(aspirasi['status'] ?? '-')),
+        DataCell(Text(aspirasi['tanggal_dibuat'] ?? '-')),
         DataCell(
           Center(
             child: btn.ActionPopupMenu(
-              onDetail: () => _showDetail(broadcast, context),
-              onEdit: () => _editData(broadcast, context),
+              onDetail: () => _showDetail(aspirasi, context),
+              onEdit: () => _editData(aspirasi, context),
               onDelete: () {},
             ),
           ),
@@ -96,20 +98,20 @@ class TabelContent extends StatelessWidget {
     );
   }
 
-  void _showDetail(Map<String, dynamic> broadcast, BuildContext context) {
+  void _showDetail(Map<String, dynamic> aspirasi, BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BroadcastDetailPage(broadcast: broadcast),
+        builder: (context) => AspirasiDetailPage(aspirasi: aspirasi),
       ),
     );
   }
 
-  void _editData(Map<String, dynamic> broadcast, BuildContext context) {
+  void _editData(Map<String, dynamic> aspirasi, BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BroadcastEditPage(broadcast: broadcast),
+        builder: (context) => AspirasiEditPage(aspirasi: aspirasi),
       ),
     );
   }
