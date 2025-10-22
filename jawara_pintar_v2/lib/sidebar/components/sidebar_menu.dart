@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jawara_pintar_v2/manajemen_pengguna/halaman_daftar_pengguna.dart';
+import 'package:jawara_pintar_v2/manajemen_pengguna/halaman_tambah_pengguna.dart';
 import 'package:jawara_pintar_v2/warga/pages/keluarga.dart';
 import 'package:jawara_pintar_v2/dashboard/kependudukan.dart';
 import 'package:jawara_pintar_v2/keuangan/laporan.dart';
@@ -265,7 +266,7 @@ class SidebarMenu extends StatelessWidget {
         SubMenu("Tambah - pengguna", onTap: (context) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const KegiatanPage()),
+            MaterialPageRoute(builder: (context) => const UserAddScreen()),
           );
         })
       ],
