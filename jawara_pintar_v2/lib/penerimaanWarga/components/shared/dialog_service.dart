@@ -10,8 +10,14 @@ class PenerimaanWargaDialogService {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Setujui Pendaftaran'),
-        content: Text('Apakah Anda yakin ingin menyetujui pendaftaran $nama?'),
+        title: const Row(
+          children: [
+            Icon(Icons.check_circle_outline, color: Colors.green),
+            SizedBox(width: 8),
+            Text('Setujui'),
+          ],
+        ),
+        content: Text('Setujui pendaftaran $nama?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -23,9 +29,10 @@ class PenerimaanWargaDialogService {
               onConfirm();
               ToastService.showSuccess(
                 context, 
-                'Pendaftaran $nama telah disetujui'
+                '$nama disetujui'
               );
             },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
             child: const Text('Setujui'),
           ),
         ],
@@ -41,8 +48,14 @@ class PenerimaanWargaDialogService {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Tolak Pendaftaran'),
-        content: Text('Apakah Anda yakin ingin menolak pendaftaran $nama?'),
+        title: const Row(
+          children: [
+            Icon(Icons.cancel_outlined, color: Colors.red),
+            SizedBox(width: 8),
+            Text('Tolak'),
+          ],
+        ),
+        content: Text('Tolak pendaftaran $nama?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -54,7 +67,7 @@ class PenerimaanWargaDialogService {
               onConfirm();
               ToastService.showError(
                 context, 
-                'Pendaftaran $nama telah ditolak'
+                '$nama ditolak'
               );
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -73,8 +86,14 @@ class PenerimaanWargaDialogService {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Aktifkan Pendaftaran'),
-        content: Text('Apakah Anda yakin ingin mengaktifkan pendaftaran $nama?'),
+        title: const Row(
+          children: [
+            Icon(Icons.play_arrow_outlined, color: Colors.green),
+            SizedBox(width: 8),
+            Text('Aktifkan'),
+          ],
+        ),
+        content: Text('Aktifkan $nama?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -86,9 +105,10 @@ class PenerimaanWargaDialogService {
               onConfirm();
               ToastService.showSuccess(
                 context, 
-                'Pendaftaran $nama telah diaktifkan'
+                '$nama diaktifkan'
               );
             },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
             child: const Text('Aktifkan'),
           ),
         ],
@@ -104,8 +124,14 @@ class PenerimaanWargaDialogService {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Nonaktifkan Pendaftaran'),
-        content: Text('Apakah Anda yakin ingin menonaktifkan pendaftaran $nama?'),
+        title: const Row(
+          children: [
+            Icon(Icons.pause_outlined, color: Colors.orange),
+            SizedBox(width: 8),
+            Text('Nonaktifkan'),
+          ],
+        ),
+        content: Text('Nonaktifkan $nama?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -117,11 +143,49 @@ class PenerimaanWargaDialogService {
               onConfirm();
               ToastService.showWarning(
                 context, 
-                'Pendaftaran $nama telah dinonaktifkan'
+                '$nama dinonaktifkan'
               );
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
             child: const Text('Nonaktifkan'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static void showDeleteDialog({
+    required BuildContext context,
+    required String nama,
+    required VoidCallback onConfirm,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Row(
+          children: [
+            Icon(Icons.delete_outline, color: Colors.red),
+            SizedBox(width: 8),
+            Text('Hapus'),
+          ],
+        ),
+        content: Text('Hapus $nama? Tindakan ini tidak dapat dibatalkan.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Batal'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              onConfirm();
+              ToastService.showSuccess(
+                context, 
+                '$nama dihapus'
+              );
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Hapus'),
           ),
         ],
       ),
@@ -136,63 +200,107 @@ class PenerimaanWargaDialogService {
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+        backgroundColor: Colors.transparent,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Header
               Container(
-                width: double.infinity,
                 padding: const EdgeInsets.all(16),
-                color: Colors.blue,
+                decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.1),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                ),
                 child: Row(
                   children: [
-                    const Icon(Icons.photo, color: Colors.white),
-                    const SizedBox(width: 12),
+                    const Icon(Icons.photo_library_outlined, color: Colors.blue),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         'Foto Identitas - $nama',
                         style: const TextStyle(
-                          color: Colors.white,
                           fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white),
+                      icon: const Icon(Icons.close),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                   ],
                 ),
               ),
               
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Image.asset(
-                  'assets/images/$fotoIdentitas',
-                  width: 300,
-                  height: 200,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
+              // Foto Content
+              Container(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Container(
                       width: 300,
                       height: 200,
-                      color: Colors.grey[200],
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.grey[300]!),
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.photo, size: 64, color: Colors.grey[400]),
+                          Icon(
+                            Icons.photo_camera,
+                            size: 48,
+                            color: Colors.grey[400],
+                          ),
+                          const SizedBox(height: 8),
                           Text(
-                            'Foto tidak tersedia',
-                            style: TextStyle(color: Colors.grey[600]),
+                            'Foto KTP / Identitas',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            fotoIdentitas,
+                            style: TextStyle(
+                              color: Colors.grey[500],
+                              fontSize: 12,
+                            ),
                           ),
                         ],
                       ),
-                    );
-                  },
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('Tutup'),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // TODO: Implement zoom functionality
+                            },
+                            child: const Text('Zoom'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
