@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'fields/nama_keluarga_field.dart';
-import 'fields/status_field.dart';
-import 'fields/rumah_field.dart';
 import 'filter_header.dart';
+import 'filter_chips.dart';
 import 'filter_buttons.dart';
 
 class FilterKeluargaDialog extends StatefulWidget {
@@ -20,88 +18,77 @@ class FilterKeluargaDialog extends StatefulWidget {
 }
 
 class _FilterKeluargaDialogState extends State<FilterKeluargaDialog> {
-  final _formKey = GlobalKey<FormState>();
-  String _selectedNama = '';
-  String? _selectedStatus;
-  String? _selectedRumah;
+  final Map<String, String> _selectedFilters = {};
 
   void _applyFilter() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      
-      final filters = <String, String>{};
-      if (_selectedNama.isNotEmpty) filters['nama'] = _selectedNama;
-      if (_selectedStatus != null) filters['status'] = _selectedStatus!;
-      if (_selectedRumah != null) filters['rumah'] = _selectedRumah!;
-
-      widget.onFilterApplied(filters);
-      Navigator.of(context).pop();
-    }
+    widget.onFilterApplied(_selectedFilters);
+    Navigator.of(context).pop();
   }
 
   void _resetFilter() {
-    _formKey.currentState!.reset();
     setState(() {
-      _selectedNama = '';
-      _selectedStatus = null;
-      _selectedRumah = null;
+      _selectedFilters.clear();
     });
     widget.onFilterReset();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        width: 400,
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FilterHeader(onClose: () => Navigator.of(context).pop()),
-              const SizedBox(height: 20),
-              const Divider(height: 1),
-              const SizedBox(height: 20),
-              _buildFormFields(),
-              const SizedBox(height: 24),
-              FilterButtons(
-                onReset: _resetFilter,
-                onApply: _applyFilter,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  void _onFilterSelected(String key, String value) {
+    setState(() {
+      if (_selectedFilters.containsKey(key) && _selectedFilters[key] == value) {
+        _selectedFilters.remove(key);
+      } else {
+        _selectedFilters[key] = value;
+      }
+    });
   }
 
-  Widget _buildFormFields() {
-    return Column(
-      children: [
-        // Field Nama
-        NamaKeluargaField(
-          onChanged: (value) => setState(() => _selectedNama = value),
-        ),
-        const SizedBox(height: 16),
-        
-        // Field Status
-        StatusField(
-          selectedValue: _selectedStatus,
-          onChanged: (value) => setState(() => _selectedStatus = value),
-        ),
-        const SizedBox(height: 16),
-        
-        // Field Rumah
-        RumahField(
-          selectedValue: _selectedRumah,
-          onChanged: (value) => setState(() => _selectedRumah = value),
-        ),
-      ],
+  bool _isFilterSelected(String key, String value) {
+    return _selectedFilters.containsKey(key) && _selectedFilters[key] == value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          FilterHeader(
+            onClose: () => Navigator.of(context).pop(),
+            selectedCount: _selectedFilters.length,
+          ),
+          const SizedBox(height: 16),
+          
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: FilterChips(
+                selectedFilters: _selectedFilters,
+                onFilterSelected: _onFilterSelected,
+                isFilterSelected: _isFilterSelected,
+              ),
+            ),
+          ),
+          
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, -2),
+                ),
+              ],
+            ),
+            child: FilterButtons(
+              onReset: _resetFilter,
+              onApply: _applyFilter,
+              selectedCount: _selectedFilters.length,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
