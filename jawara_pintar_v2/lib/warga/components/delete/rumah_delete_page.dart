@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import '../../../services/toast_service.dart';
 
 class RumahDelete {
-  static Future<void> showDeleteConfirmationDialog({
+  static Future<bool> showDeleteConfirmationDialog({
     required BuildContext context,
     required String alamat,
     required VoidCallback onConfirmDelete,
-  }) {
-    return showDialog(
+  }) async {
+    final result = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -24,14 +24,13 @@ class RumahDelete {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(false);
               },
               child: const Text('Batal'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
-                onConfirmDelete();
+                Navigator.of(context).pop(true);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
@@ -43,6 +42,8 @@ class RumahDelete {
         );
       },
     );
+
+    return result ?? false;
   }
 
   static void deleteRumah({
@@ -53,11 +54,13 @@ class RumahDelete {
     // TODO: Implementasi logika hapus data dari database
     
     print('Menghapus rumah: ${rumah['alamat']}');
-    
-    // proses hapus
+
     _simulateDeleteProcess().then((_) {
       ToastService.showSuccess(context, "Data rumah berhasil dihapus");
       onSuccess();
+    }).catchError((error) {
+      ToastService.showError(context, "Gagal menghapus data rumah");
+      print('Error deleting rumah: $error');
     });
   }
 

@@ -10,7 +10,6 @@ class KeluargaDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Ambil data anggota keluarga dari field 'anggota'
     List<Map<String, dynamic>> anggotaKeluarga = 
         (keluarga['anggota'] as List?)?.cast<Map<String, dynamic>>() ?? [];
 
@@ -301,7 +300,6 @@ class KeluargaDetailPage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Nomor urut
           Container(
             width: 32,
             height: 32,
@@ -343,8 +341,7 @@ class KeluargaDetailPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                
-                // Info baris pertama
+
                 Row(
                   children: [
                     Expanded(
@@ -363,8 +360,7 @@ class KeluargaDetailPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 6),
-                
-                // Status baris
+
                 Row(
                   children: [
                     _buildStatusChip(
