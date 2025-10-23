@@ -1,6 +1,6 @@
 # 📱 Project Mobile **PBL**
 
-### 👥 Kelompok 3
+## 👥 Kelompok 3
 
 | **Nama**                    | **NIM**        | **Deskripsi Jobdesk**                                         |
 |-----------------------------|----------------|---------------------------------------------------------------|
@@ -11,3 +11,22 @@
 | Rafi Ody Prasetyo           | 2341720180     | Manajemen Broadcast & Kegiatan, Aktivitas Log, Pesan Warga    |
 
 ---
+
+## Tampilan
+
+### Manajemen Kegiatan
+<img src="img/kegiatan.gif" alt="Manajemen Kegiatan" width="20%">
+
+
+### Manajemen Broadcast
+<img src="img/broadcast.gif" alt="Manajemen Broadcast" width="20%">
+
+
+### Aktivitas Log
+<img src="img/log.gif" alt="Log" width="20%">
+
+
+### Pesan Warga
+<img src="img/aspirasi.gif" alt="Pesan Warga" width="20%">
+
+
