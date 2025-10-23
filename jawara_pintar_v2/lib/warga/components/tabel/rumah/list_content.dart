@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../shared/status_chip.dart';
-import '../../../../data/warga_data.dart';
-import '../../detail/keluarga_detail_page.dart';
+import '../../../../data/rumah_data.dart';
+import '../../detail/rumah_detail_page.dart';
+import '../../delete/rumah_delete_page.dart';
 
 class ListContent extends StatelessWidget {
   final List<Map<String, dynamic>> filteredData;
   final ScrollController scrollController;
-  final int totalKeluarga;
+  final int totalRumah;
 
   const ListContent({
     super.key,
     required this.filteredData,
     required this.scrollController,
-    required this.totalKeluarga,
+    required this.totalRumah,
   });
 
   @override
@@ -26,15 +27,76 @@ class ListContent extends StatelessWidget {
       itemCount: filteredData.length,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       itemBuilder: (context, index) {
-        final keluarga = filteredData[index];
-        return _buildKeluargaCard(keluarga, context);
+        final rumah = filteredData[index];
+        return _buildSwipeableRumahCard(rumah, index + 1, context);
       },
     );
   }
 
-  Widget _buildKeluargaCard(Map<String, dynamic> keluarga, BuildContext context) {
-    final anggotaKeluarga = (keluarga['anggota'] as List?)?.cast<Map<String, dynamic>>() ?? [];
-    
+  Widget _buildSwipeableRumahCard(Map<String, dynamic> rumah, int nomorUrut, BuildContext context) {
+    return Dismissible(
+      key: Key(rumah['alamat']?.toString() ?? UniqueKey().toString()),
+      direction: DismissDirection.endToStart,
+      background: _buildSwipeBackground(),
+      secondaryBackground: _buildSwipeBackground(),
+      confirmDismiss: (direction) async {
+        return await RumahDelete.showDeleteConfirmationDialog(
+          context: context,
+          alamat: rumah['alamat']?.toString() ?? 'Rumah ini',
+          onConfirmDelete: () {
+          },
+        );
+      },
+      onDismissed: (direction) {
+        RumahDelete.deleteRumah(
+          context: context,
+          rumah: rumah,
+          onSuccess: () {
+          },
+        );
+      },
+      child: _buildRumahCard(rumah, nomorUrut, context),
+    );
+  }
+
+  Widget _buildSwipeBackground() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: const Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: EdgeInsets.only(right: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Icon(Icons.delete, color: Colors.white),
+              SizedBox(width: 8),
+              Text(
+                'Hapus',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRumahCard(Map<String, dynamic> rumah, int nomorUrut, BuildContext context) {
+    final alamat = rumah['alamat']?.toString() ?? 'Alamat tidak tersedia';
+    final rt = rumah['rt']?.toString() ?? '-';
+    final rw = rumah['rw']?.toString() ?? '-';
+    final status = rumah['status']?.toString() ?? '-';
+    final statusKepemilikan = rumah['status_kepemilikan']?.toString() ?? '-';
+    final jumlahPenghuni = rumah['jumlah_penghuni']?.toString() ?? '0';
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: Material(
@@ -42,7 +104,7 @@ class ListContent extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: () => _showDetail(keluarga, context),
+          onTap: () => _showDetail(rumah, context),
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -60,39 +122,30 @@ class ListContent extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
+                    color: Colors.orange.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Icon(
-                    Icons.group_outlined,
-                    color: Colors.green,
+                    Icons.house_outlined,
+                    color: Colors.orange,
                     size: 20,
                   ),
                 ),
                 const SizedBox(width: 12),
-                
+
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        keluarga['nama_keluarga'],
+                        alamat,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                           color: Colors.black87,
                         ),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                      const SizedBox(height: 2),
-                      
-                      Text(
-                        "Kepala: ${keluarga['kepala_keluarga']}",
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                        ),
+                        maxLines: 2,
                       ),
                       const SizedBox(height: 6),
                       
@@ -100,29 +153,30 @@ class ListContent extends StatelessWidget {
                         children: [
                           Expanded(
                             child: _buildInfoChip(
-                              keluarga['alamat'],
-                              Icons.home_outlined,
+                              'RT $rt/RW $rw',
+                              Icons.location_on_outlined,
                               Colors.blue,
                             ),
                           ),
                           const SizedBox(width: 8),
-
-                          _buildInfoChip(
-                            '${anggotaKeluarga.length} Anggota',
-                            Icons.people_outline,
-                            Colors.orange,
-                          ),
+                          
+                          StatusChip(status: status, compact: true),
                         ],
                       ),
                       const SizedBox(height: 6),
-
+                      
                       Row(
                         children: [
-                          StatusChip(status: keluarga['status'], compact: true),
-                          const SizedBox(width: 6),
                           _buildInfoChip(
-                            keluarga['status_kepemilikan'],
-                            Icons.house_siding_outlined,
+                            '$jumlahPenghuni Penghuni',
+                            Icons.people_outline,
+                            Colors.green,
+                          ),
+                          const SizedBox(width: 8),
+
+                          _buildInfoChip(
+                            statusKepemilikan,
+                            Icons.home_work_outlined,
                             Colors.purple,
                           ),
                         ],
@@ -177,11 +231,11 @@ class ListContent extends StatelessWidget {
     );
   }
 
-  void _showDetail(Map<String, dynamic> keluarga, BuildContext context) {
+  void _showDetail(Map<String, dynamic> rumah, BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => KeluargaDetailPage(keluarga: keluarga),
+        builder: (context) => RumahDetailPage(rumah: rumah),
       ),
     );
   }
@@ -193,10 +247,10 @@ class ListContent extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.search_off, size: 80, color: Colors.grey[300]),
+            Icon(Icons.house_outlined, size: 80, color: Colors.grey[300]),
             const SizedBox(height: 16),
             const Text(
-              "Tidak ada data keluarga ditemukan",
+              "Tidak ada data rumah ditemukan",
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 16,

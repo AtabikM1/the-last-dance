@@ -70,7 +70,6 @@ class _KeluargaDaftarPageState extends State<KeluargaDaftarPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black87),
         actions: [
-          // Filter Badge
           if (_filters.isNotEmpty)
             Badge(
               backgroundColor: Colors.red,
@@ -97,7 +96,6 @@ class _KeluargaDaftarPageState extends State<KeluargaDaftarPage> {
         },
         child: Column(
           children: [
-            // Active Filters
             if (_filters.isNotEmpty) _buildActiveFilters(),
             
             // Content

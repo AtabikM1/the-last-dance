@@ -23,7 +23,6 @@ class _KeluargaListState extends State<KeluargaList> {
     if (widget.filters.isEmpty) return allKeluarga;
 
     return allKeluarga.where((keluarga) {
-      // Filter nama (nama_keluarga atau kepala_keluarga)
       if (widget.filters.containsKey('nama') &&
           widget.filters['nama']!.isNotEmpty) {
         final searchTerm = widget.filters['nama']!.toLowerCase();
@@ -36,14 +35,12 @@ class _KeluargaListState extends State<KeluargaList> {
         }
       }
 
-      // Filter status
       if (widget.filters.containsKey('status') &&
           widget.filters['status']!.isNotEmpty &&
           keluarga['status'] != widget.filters['status']) {
         return false;
       }
 
-      // Filter status kepemilikan rumah
       if (widget.filters.containsKey('rumah') &&
           widget.filters['rumah']!.isNotEmpty &&
           keluarga['status_kepemilikan'] != widget.filters['rumah']) {

@@ -70,7 +70,7 @@ class _WargaListState extends State<WargaList> {
     return ListContent(
       filteredData: filteredData,
       scrollController: widget.scrollController,
-      totalWarga: filteredData.length, // Kirim total ke ListContent jika perlu
+      totalWarga: filteredData.length,
     );
   }
 }
