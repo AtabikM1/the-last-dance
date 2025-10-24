@@ -26,7 +26,6 @@ class Pengeluaran extends StatefulWidget {
   @override
   State<Pengeluaran> createState() => _PengeluaranState();
 }
-
 class _PengeluaranState extends State<Pengeluaran> {
   // Data statis sebagai contoh
   final List<PengeluaranData> _allPengeluaranList = [
@@ -60,14 +59,14 @@ class _PengeluaranState extends State<Pengeluaran> {
     ),
   ];
 
-  // --- BARU: List untuk data yang sudah difilter ---
+  // List untuk data yang sudah difilter
   List<PengeluaranData> _filteredPengeluaranList = [];
 
   int _currentPage = 1;
 
-  // --- BARU: State untuk menyimpan nilai filter ---
+  // State untuk menyimpan nilai filter
   final TextEditingController _namaFilterController = TextEditingController();
-  String? _selectedKategori; // Akan menyimpan 'Jenis Pengeluaran' yang dipilih
+  String? _selectedKategori;
   DateTime? _selectedDariTanggal;
   DateTime? _selectedSampaiTanggal;
   final TextEditingController _dariTanggalController = TextEditingController();
@@ -76,9 +75,16 @@ class _PengeluaranState extends State<Pengeluaran> {
 
   // Opsi untuk dropdown
   List<String> _kategoriOptions = [];
+
+  // --- BARU: Pindahkan Formatter ke level class agar efisien ---
+  final currencyFormatter = NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: 'Rp ', // Tambah spasi
+    decimalDigits: 0, // Hilangkan desimal untuk UI card
+  );
+  final dateFormatter = DateFormat('dd/MM/yyyy', 'id_ID');
   // --- Akhir Bagian Baru ---
 
-  // --- BARU: initState untuk inisialisasi list ---
   @override
   void initState() {
     super.initState();
@@ -90,9 +96,7 @@ class _PengeluaranState extends State<Pengeluaran> {
     // Awalnya, tampilkan semua data
     _filteredPengeluaranList = List.from(_allPengeluaranList);
   }
-  // --- Akhir Bagian Baru ---
 
-  // --- BARU: Dispose controllers ---
   @override
   void dispose() {
     _namaFilterController.dispose();
@@ -100,37 +104,32 @@ class _PengeluaranState extends State<Pengeluaran> {
     _sampaiTanggalController.dispose();
     super.dispose();
   }
-  // --- Akhir Bagian Baru ---
 
-  // --- BARU: Logika untuk menerapkan filter ---
+  // Logika untuk menerapkan filter
   void _applyFilter() {
     setState(() {
       _filteredPengeluaranList = _allPengeluaranList.where((pengeluaran) {
-        // Filter Nama
         final bool namaMatch =
             _namaFilterController.text.isEmpty ||
             pengeluaran.nama.toLowerCase().contains(
               _namaFilterController.text.toLowerCase(),
             );
 
-        // Filter Kategori (Jenis Pengeluaran)
         final bool kategoriMatch =
             _selectedKategori == null ||
             pengeluaran.jenisPengeluaran == _selectedKategori;
 
-        // Filter Dari Tanggal
         final bool dariTanggalMatch =
             _selectedDariTanggal == null ||
             pengeluaran.tanggal.isAfter(
               _selectedDariTanggal!.subtract(const Duration(seconds: 1)),
-            ); // Buat inklusif
+            );
 
-        // Filter Sampai Tanggal
         final bool sampaiTanggalMatch =
             _selectedSampaiTanggal == null ||
             pengeluaran.tanggal.isBefore(
               _selectedSampaiTanggal!.add(const Duration(days: 1)),
-            ); // Buat inklusif
+            );
 
         return namaMatch &&
             kategoriMatch &&
@@ -138,11 +137,10 @@ class _PengeluaranState extends State<Pengeluaran> {
             sampaiTanggalMatch;
       }).toList();
     });
-    Navigator.of(context).pop(); // Tutup dialog setelah filter diterapkan
+    Navigator.of(context).pop(); // Tutup dialog
   }
-  // --- Akhir Bagian Baru ---
 
-  // --- BARU: Logika untuk reset filter ---
+  // Logika untuk reset filter
   void _resetFilter(void Function(void Function()) setDialogState) {
     setDialogState(() {
       _namaFilterController.clear();
@@ -157,7 +155,6 @@ class _PengeluaranState extends State<Pengeluaran> {
       _filteredPengeluaranList = List.from(_allPengeluaranList);
     });
   }
-  // --- Akhir Bagian Baru ---
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +192,6 @@ class _PengeluaranState extends State<Pengeluaran> {
                 alignment: Alignment.centerRight,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // --- MODIFIKASI: Panggil dialog filter ---
                     _showFilterDialog(context);
                   },
                   icon: const Icon(Icons.filter_list, color: Colors.white),
@@ -214,99 +210,26 @@ class _PengeluaranState extends State<Pengeluaran> {
               ),
               const SizedBox(height: 16),
 
-              // Tabel Data
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minWidth: constraints.maxWidth,
-                      ),
-                      child: DataTable(
-                        columnSpacing: 20,
-                        headingRowColor: MaterialStateProperty.all(
-                          Colors.grey.shade100,
+              // --- PERUBAHAN UTAMA: GANTI DataTable MENJADI Column ---
+              _filteredPengeluaranList.isEmpty
+                  ? const Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 40),
+                        child: Text(
+                          "Data tidak ditemukan.",
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
                         ),
-                        columns: const [
-                          DataColumn(
-                            label: Text(
-                              'NO',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'NAMA',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'JENIS PENGELUARAN',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'TANGGAL',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'NOMINAL',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'AKSI',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                        // --- MODIFIKASI: Gunakan list yang sudah difilter ---
-                        rows: _filteredPengeluaranList.map((pengeluaran) {
-                          final currencyFormatter = NumberFormat.currency(
-                            locale: 'id_ID',
-                            symbol: 'Rp',
-                            decimalDigits: 2,
-                          );
-                          final dateFormatter = DateFormat(
-                            'd MMM yyyy HH:mm',
-                            'id_ID',
-                          );
-
-                          return DataRow(
-                            cells: [
-                              DataCell(Text(pengeluaran.no.toString())),
-                              DataCell(Text(pengeluaran.nama)),
-                              DataCell(Text(pengeluaran.jenisPengeluaran)),
-                              DataCell(
-                                Text(dateFormatter.format(pengeluaran.tanggal)),
-                              ),
-                              DataCell(
-                                Text(
-                                  currencyFormatter.format(pengeluaran.nominal),
-                                ),
-                              ),
-                              DataCell(
-                                IconButton(
-                                  icon: const Icon(Icons.more_horiz),
-                                  onPressed: () {
-                                    // Logika untuk aksi
-                                  },
-                                ),
-                              ),
-                            ],
-                          );
-                        }).toList(),
                       ),
+                    )
+                  : Column(
+                      children: _filteredPengeluaranList
+                          .map(
+                            (pengeluaran) => _buildPengeluaranCard(pengeluaran),
+                          )
+                          .toList(),
                     ),
-                  );
-                },
-              ),
+
+              // --- AKHIR PERUBAHAN ---
               const SizedBox(height: 24),
               // Paginasi
               _buildPagination(),
@@ -317,9 +240,172 @@ class _PengeluaranState extends State<Pengeluaran> {
     );
   }
 
+  // --- WIDGET BARU: Untuk membangun Card Pengeluaran (gaya dari gambar) ---
+  Widget _buildPengeluaranCard(PengeluaranData pengeluaran) {
+    // Logika kondisional UI (sesuai gambar)
+    // Kita buat logika sederhana: 'Pemeliharaan Fasilitas' berwarna biru, sisanya merah
+    bool isFasilitas = pengeluaran.jenisPengeluaran == 'Pemeliharaan Fasilitas';
+    Color borderColor = isFasilitas
+        ? const Color(0xFF63C2DE)
+        : const Color(0xFFF76C6C);
+    Color statusColor = isFasilitas
+        ? const Color(0xFF28A745)
+        : const Color(0xFFF76C6C);
+    String statusText = isFasilitas
+        ? 'Fasilitas'
+        : 'Lainnya'; // Teks status sederhana
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border(left: BorderSide(color: borderColor, width: 5)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // --- Baris Atas (Nama, Status, Aksi) ---
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Kiri: Jenis Pengeluaran & Nama
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        pengeluaran.jenisPengeluaran.toUpperCase(),
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        pengeluaran.nama,
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                // Kanan: Status & Aksi
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Status (dot & text)
+                    Icon(Icons.circle, color: statusColor, size: 10),
+                    const SizedBox(width: 6),
+                    Text(
+                      statusText,
+                      style: TextStyle(
+                        color: statusColor,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    // Tombol Aksi (3 titik)
+                    IconButton(
+                      icon: const Icon(Icons.more_horiz),
+                      onPressed: () {
+                        // Logika untuk aksi (edit, delete, dll)
+                      },
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      splashRadius: 20,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Divider(height: 1, color: Color(0xFFEEEEEE)), // Garis pemisah
+            const SizedBox(height: 16),
+
+            // --- Baris Bawah (Tanggal & Nominal) ---
+            Row(
+              children: [
+                // Kiri: TANGGAL
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "TANGGAL",
+                        style: TextStyle(
+                          color: Colors.grey.shade500,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        dateFormatter.format(pengeluaran.tanggal),
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Kanan: NOMINAL
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "NOMINAL",
+                        style: TextStyle(
+                          color: Colors.grey.shade500,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        currencyFormatter.format(pengeluaran.nominal),
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  // --- AKHIR WIDGET BARU ---
+
   // Widget untuk kontrol paginasi
   Widget _buildPagination() {
-    // TODO: Logika paginasi perlu disesuaikan dengan data yang difilter
+    // ... (Tidak ada perubahan)
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -353,13 +439,12 @@ class _PengeluaranState extends State<Pengeluaran> {
     );
   }
 
-  // --- BARU: Method untuk menampilkan dialog filter ---
+  // Method untuk menampilkan dialog filter
   void _showFilterDialog(BuildContext context) {
+    // ... (Tidak ada perubahan)
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // Gunakan StatefulBuilder agar state di dalam dialog (seperti dropdown)
-        // bisa di-update tanpa menutup dialog.
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return Dialog(
@@ -376,14 +461,15 @@ class _PengeluaranState extends State<Pengeluaran> {
     );
   }
 
-  // --- BARU: Method untuk membangun konten dialog ---
+  // Method untuk membangun konten dialog
   Widget _buildFilterDialogContent(
     BuildContext context,
     void Function(void Function()) setDialogState,
   ) {
+    // ... (Tidak ada perubahan)
     return Container(
       padding: const EdgeInsets.all(24.0),
-      constraints: const BoxConstraints(maxWidth: 400), // Batasi lebar dialog
+      constraints: const BoxConstraints(maxWidth: 400),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -393,7 +479,7 @@ class _PengeluaranState extends State<Pengeluaran> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "Filter Pengeluaran", // <-- MODIFIKASI
+                "Filter Pengeluaran",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               IconButton(
@@ -428,11 +514,11 @@ class _PengeluaranState extends State<Pengeluaran> {
           const Text(
             "Jenis Pengeluaran",
             style: TextStyle(fontWeight: FontWeight.w600),
-          ), // <-- MODIFIKASI
+          ),
           const SizedBox(height: 8),
           DropdownButtonFormField<String>(
             value: _selectedKategori,
-            hint: const Text("-- Pilih Jenis Pengeluaran --"), // <-- MODIFIKASI
+            hint: const Text("-- Pilih Jenis Pengeluaran --"),
             isExpanded: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -444,14 +530,12 @@ class _PengeluaranState extends State<Pengeluaran> {
               ),
             ),
             items: _kategoriOptions.map((String value) {
-              // Menggunakan list dinamis
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value, overflow: TextOverflow.ellipsis),
               );
             }).toList(),
             onChanged: (newValue) {
-              // Update state di dalam dialog
               setDialogState(() {
                 _selectedKategori = newValue;
               });
@@ -511,14 +595,13 @@ class _PengeluaranState extends State<Pengeluaran> {
             children: [
               TextButton(
                 onPressed: () {
-                  // Panggil fungsi reset
                   _resetFilter(setDialogState);
                 },
                 child: const Text("Reset Filter"),
               ),
               const SizedBox(width: 8),
               ElevatedButton(
-                onPressed: _applyFilter, // Panggil fungsi terapkan filter
+                onPressed: _applyFilter,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF6A5AE0),
                   foregroundColor: Colors.white,
@@ -539,8 +622,9 @@ class _PengeluaranState extends State<Pengeluaran> {
     );
   }
 
-  // --- BARU: Widget helper untuk field tanggal ---
+  // Widget helper untuk field tanggal
   Widget _buildDatePickerField({
+    // ... (Tidak ada perubahan)
     required BuildContext context,
     required TextEditingController controller,
     required Function(DateTime) onDateSelected,
@@ -548,7 +632,7 @@ class _PengeluaranState extends State<Pengeluaran> {
   }) {
     return TextField(
       controller: controller,
-      readOnly: true, // Buat field tidak bisa diketik manual
+      readOnly: true,
       decoration: InputDecoration(
         hintText: "-- / -- / ----",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
@@ -556,14 +640,12 @@ class _PengeluaranState extends State<Pengeluaran> {
           horizontal: 12,
           vertical: 14,
         ),
-        // Sesuai gambar, ada 2 ikon di kanan
         suffixIcon: Row(
-          mainAxisSize:
-              MainAxisSize.min, // Penting agar Row tidak memakan tempat
+          mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
               icon: const Icon(Icons.clear, size: 20),
-              onPressed: onClear, // Panggil fungsi clear
+              onPressed: onClear,
               splashRadius: 20,
             ),
             IconButton(
@@ -575,31 +657,27 @@ class _PengeluaranState extends State<Pengeluaran> {
           ],
         ),
       ),
-      onTap: () => _pickDate(
-        context,
-        controller,
-        onDateSelected,
-      ), // Panggil juga saat field diklik
+      onTap: () => _pickDate(context, controller, onDateSelected),
     );
   }
 
-  // --- BARU: Logika untuk memunculkan date picker ---
+  // Logika untuk memunculkan date picker
   Future<void> _pickDate(
+    // ... (Tidak ada perubahan)
     BuildContext context,
     TextEditingController controller,
     Function(DateTime) onDateSelected,
   ) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000), // Tanggal awal
-      lastDate: DateTime(2101), // Tanggal akhir
+      initialDate: _selectedDariTanggal ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
     );
     if (pickedDate != null) {
-      // Format tanggal sesuai keinginan
       String formattedDate = DateFormat('dd / MM / yyyy').format(pickedDate);
-      controller.text = formattedDate; // Update text di field
-      onDateSelected(pickedDate); // Simpan tanggal di state
+      controller.text = formattedDate;
+      onDateSelected(pickedDate);
     }
   }
 }

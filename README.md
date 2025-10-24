@@ -56,3 +56,20 @@
 
 ### Chanel Transfer
 <img src="img/chanel_transfer.gif" alt="Pesan Warga" width="20%">
+### Dashboard Keuangan
+<img src="img/dashboard1.png" alt="Pesan Warga" width="20%">
+
+### Dashboard Kegiatan
+<img src="img/dashboard2.png" alt="Pesan Warga" width="20%">
+
+### Dashboard Kependudukan
+<img src="img/dashboard3.png" alt="Pesan Warga" width="20%">
+
+### Laporan Keuangan Pemasukan
+<img src="img/keuangan1.png" alt="Pesan Warga" width="20%">
+
+### Laporan Keuangan Pengeluaran
+<img src="img/keuangan2.png" alt="Pesan Warga" width="20%">
+
+### Cetak Laporan
+<img src="img/keuangan3.png" alt="Pesan Warga" width="20%">
