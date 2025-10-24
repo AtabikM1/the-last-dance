@@ -21,7 +21,6 @@ class _FormEditChanelState extends State<FormEditChanel> {
   @override
   void initState() {
     super.initState();
-    // Isi controller dengan data yang ada
     _namaChanelController = TextEditingController(text: widget.chanel.nama);
     _nomorRekeningController = TextEditingController(text: widget.chanel.nomorAkun);
     _namaPemilikController = TextEditingController(text: widget.chanel.namaPemilik);
@@ -43,7 +42,7 @@ class _FormEditChanelState extends State<FormEditChanel> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Perubahan berhasil disimpan! (Simulasi)')),
       );
-      Navigator.pop(context); // Kembali ke halaman daftar
+      Navigator.pop(context);
     }
   }
 
@@ -94,11 +93,14 @@ class _FormEditChanelState extends State<FormEditChanel> {
                     value == null || value.isEmpty ? 'Nama tidak boleh kosong' : null,
               ),
               const SizedBox(height: 20),
+              
+              // --- PERBAIKAN ERROR DROPDOWN ---
               DropdownButtonFormField<String>(
                 value: _selectedTipe,
                 decoration: const InputDecoration(labelText: 'Tipe'),
-                items: ['Bank', 'E-Wallet', 'qris', 'ewallet', 'bank']
-                    .toSet() // Hindari duplikat
+                // Daftar ini harus berisi SEMUA nilai yang mungkin ada di data Anda
+                items: ['Bank', 'Ewallet', 'QRIS', 'bank', 'ewallet', 'qris']
+                    .toSet() // .toSet() untuk menghapus duplikat
                     .map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -113,6 +115,8 @@ class _FormEditChanelState extends State<FormEditChanel> {
                 validator: (value) =>
                     value == null ? 'Tipe harus dipilih' : null,
               ),
+              // --- AKHIR PERBAIKAN ---
+
               const SizedBox(height: 20),
               TextFormField(
                 controller: _nomorRekeningController,
